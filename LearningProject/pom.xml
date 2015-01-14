@@ -7,6 +7,72 @@
     <groupId>MyFirstTest</groupId>
     <artifactId>MyFirstTest</artifactId>
     <version>1.0-SNAPSHOT</version>
+	
+		<build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources/features</directory>
+            </testResource>
+        </testResources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.version}</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <source>${apache-maven}</source>
+                    <target>${apache-maven}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.version}</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${failsafe.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+                <configuration>
+                    <forkCount>${surefire.fork.count}</forkCount>
+                    <reuseForks>false</reuseForks>
+                    <argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
+                    <includes>
+                        <include>**/*Test.class</include>
+                    </includes>
+                    <excludes>
+                        <exclude>**/RunDeveloperTest.class</exclude>
+                        <exclude>**/RunMobileTest.class</exclude>
+                    </excludes>
+                    <systemPropertyVariables>
+                        <includeTags></includeTags>
+                        <excludeTags></excludeTags>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 <dependencies>
     <dependency>
